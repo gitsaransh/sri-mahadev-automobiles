@@ -1,7 +1,9 @@
 /* Global Variables */
 :root {
-    --primary-color: #e63946; /* Sporty Red */
-    --accent-color: #fca311; /* Warning Yellow */
+    --primary-color: #e63946;
+    /* Sporty Red */
+    --accent-color: #fca311;
+    /* Warning Yellow */
     --dark-bg: #111111;
     --card-bg: #1a1a1a;
     --text-color: #e0e0e0;
@@ -29,7 +31,12 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Poppins', sans-serif;
     color: var(--heading-color);
     font-weight: 700;
@@ -129,7 +136,7 @@ img {
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
 }
 
@@ -173,14 +180,15 @@ img {
 /* Hero Section */
 .hero {
     height: 100vh;
-    /* Use a linear gradient + placeholder if no image, or a generic bike image URL */
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1558981806-ec527fa84c3d?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    /* Use a linear gradient + local image */
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/hero.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
-    margin-top: 60px; /* Offset for fixed header */
+    margin-top: 60px;
+    /* Offset for fixed header */
     padding: 0 20px;
 }
 
@@ -195,14 +203,16 @@ img {
 .text-stroke {
     -webkit-text-stroke: 1px var(--primary-color);
     color: transparent;
-    display: block; /* Break line on mobile usually, or keep inline */
+    display: block;
+    /* Break line on mobile usually, or keep inline */
 }
 
 @media (min-width: 768px) {
     .text-stroke {
         display: inline;
         /* -webkit-text-stroke: 2px var(--primary-color); */
-        color: var(--primary-color); /* Fallback to solid color for better read */
+        color: var(--primary-color);
+        /* Fallback to solid color for better read */
         -webkit-text-stroke: 0;
     }
 }
@@ -273,7 +283,8 @@ img {
 /* Products Grid */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Responsive grid */
     gap: 25px;
 }
 
@@ -320,7 +331,8 @@ img {
 
 /* Services */
 .services {
-    background-color: #0f0f0f; /* Slightly darker */
+    background-color: #0f0f0f;
+    /* Slightly darker */
 }
 
 .services-wrapper {
@@ -342,7 +354,7 @@ img {
 .service-number {
     font-size: 2.5rem;
     font-weight: 800;
-    color: rgba(255,255,255,0.1);
+    color: rgba(255, 255, 255, 0.1);
     line-height: 1;
 }
 
@@ -399,11 +411,12 @@ img {
 }
 
 .review-card {
-    display: none; /* JS will toggle this */
+    display: none;
+    /* JS will toggle this */
     background: var(--card-bg);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     border-top: 4px solid var(--primary-color);
     width: 100%;
 }
@@ -413,8 +426,13 @@ img {
 }
 
 @keyframes fadeIn {
-    from {opacity: .4} 
-    to {opacity: 1}
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
 }
 
 .stars {
@@ -490,7 +508,8 @@ img {
 /* Footer */
 footer {
     background: #000;
-    padding: 30px 0 80px; /* Extra bottom padding for sticky bar */
+    padding: 30px 0 80px;
+    /* Extra bottom padding for sticky bar */
     text-align: center;
     border-top: 1px solid #222;
 }
@@ -531,7 +550,7 @@ footer {
     background: #111;
     display: flex;
     z-index: 1000;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .sticky-btn {
@@ -567,7 +586,7 @@ footer {
     align-items: center;
     justify-content: center;
     font-size: 30px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     transition: var(--transition);
 }
@@ -593,7 +612,7 @@ footer {
     .float-whatsapp {
         display: flex;
     }
-    
+
     footer {
         padding-bottom: 30px;
     }
@@ -628,7 +647,7 @@ footer {
     .hamburger {
         display: block;
     }
-    
+
     .services-wrapper {
         flex-direction: column;
     }
