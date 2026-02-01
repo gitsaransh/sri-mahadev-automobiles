@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReelRewards - Web Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF4B2B;
+            --secondary: #FF416C;
+            --gold: #FFD700;
+            --bg: #121212;
+            --surface: #1E1E1E;
+            --text: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Container Simulation */
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--bg);
+            position: relative;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(255, 75, 43, 0.1);
+        }
+
+        /* UTILITIES */
+        .hidden {
+            display: none !important;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            padding: 16px;
+            width: 100%;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* LOGIN SCREEN */
+        .login-screen {
+            padding: 32px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .glow-orb {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 75, 43, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: 2px solid var(--primary);
+        }
+
+        /* DASHBOARD SCREEN */
+        .dashboard-screen {
+            padding: 24px;
+            padding-bottom: 100px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .redeem-btn {
+            background: var(--surface);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .redeem-btn.active {
+            background: var(--gold);
+            color: var(--bg);
+        }
+
+        /* STREAK WIDGET */
+        .streak-card {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 24px;
+            border-radius: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(255, 75, 43, 0.3);
+        }
+
+        .fire-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        /* DUELS */
+        .duels-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+        }
+
+        .duel-card {
+            min-width: 140px;
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 20px;
+        }
+
+        /* HERO VIDEO */
+        .video-card {
+            width: 100%;
+            height: 200px;
+            background: var(--surface);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- LOGIN -->
+        <div id="login-screen" class="login-screen">
+            <div class="glow-orb"></div>
+            <h1 style="font-size: 42px; margin-bottom: 8px;" class="gradient-text">ReelRewards</h1>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 48px;">Watch. Earn. Duel.</p>
+
+            <div style="text-align: left; margin-bottom: 32px;">
+                <h3>Enter your phone number</h3>
+                <input type="tel" id="phone" placeholder="+91 98765 43210" value="9876543210">
+                <input type="text" placeholder="Referral Code (Optional)">
+            </div>
+
+            <button class="btn-primary" onclick="handleLogin()">Send OTP &rarr;</button>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard-screen" class="dashboard-screen hidden">
+            <div class="top-bar">
+                <div class="user-info">
+                    <div class="avatar">👤</div>
+                    <div>
+                        <div style="font-size: 18px; font-weight: 600;">Hello, <span id="user-name">User</span></div>
+                        <div style="font-size: 12px; opacity: 0.7;">Ready to earn?</div>
+                    </div>
+                </div>
+                <div class="redeem-btn" id="redeem-btn">Redeem</div>
+            </div>
+
+            <!-- Streak Widget -->
+            <div class="streak-card">
+                <div style="font-size: 20px; font-weight: bold;">You're on Fire!</div>
+                <div class="fire-row">
+                    <span style="font-size: 24px;" id="streak-days">0 Day Streak</span>
+                    <span id="fire-icons" style="font-size: 24px;">🔥</span>
+                </div>
+            </div>
+
+            <!-- Duels -->
+            <h3>Active Friend Duels</h3>
+            <div class="duels-scroll" id="duels-list">
+                <!-- Injected via JS -->
+                <div class="duel-card">
+                    <div style="color: var(--gold); font-size: 14px;">vs Rohan</div>
+                    <div style="font-size: 22px; font-weight: bold; margin: 8px 0;">3 Days</div>
+                    <div style="font-size: 12px; opacity: 0.6;">2x Bonus Active</div>
+                </div>
+            </div>
+
+            <!-- Video -->
+            <h3>Watch & Earn</h3>
+            <div class="video-card" onclick="watchVideo()">
+                <div style="position:absolute; bottom:20px; left:20px; z-index:2;">
+                    <div style="font-weight:bold;">Relaxing ASMR Cooking</div>
+                    <div style="font-size:12px; opacity:0.7;">Earn 10 Points • 30s</div>
+                </div>
+                <div class="play-btn">▶</div>
+                <div
+                    style="position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <h3 style="margin-top:24px;">Reward Progress</h3>
+            <div style="background:var(--surface); padding:20px; border-radius:24px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                    <span style="font-size:14px;">Next Reward: ₹100</span>
+                    <span style="color:var(--gold); font-weight:bold;"><span id="points-bal">0</span>/100 pts</span>
+                </div>
+                <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px;">
+                    <div id="progress-bar"
+                        style="width: 0%; height:100%; background:var(--primary); border-radius:4px; transition: width 0.5s;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">🎉 +10 Points Earned!</div>
+
+    <script>
+        let token = '';
+
+        async function handleLogin() {
+            const phone = document.getElementById('phone').value;
+            // Simulate OTP Verify API Call
+            try {
+                const res = await fetch('/api/auth/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        idToken: 'mock-token', // Backend in mock mode accepts this
+                        name: 'Rohan',
+                        city: 'Mumbai'
+                    })
+                });
+                const data = await res.json();
+                token = 'mock-jwt'; // In real app, this comes from Firebase
+
+                // Switch Screens
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+
+                // Load Dashboard
+                loadDashboard(data);
+            } catch (e) {
+                alert('Login Failed: ' + e);
+            }
+        }
+
+        async function loadDashboard(userData) {
+            document.getElementById('user-name').innerText = userData.name || 'User';
+            updateBalance(userData.points_balance || 0);
+
+            const days = userData.solo_streak_days || 0;
+            document.getElementById('streak-days').innerText = `${days} Day Streak`;
+            document.getElementById('fire-icons').innerText = '🔥'.repeat(Math.min(days, 5));
+        }
+
+        function updateBalance(pts) {
+            document.getElementById('points-bal').innerText = pts;
+            const pct = Math.min((pts / 100) * 100, 100);
+            document.getElementById('progress-bar').style.width = `${pct}%`;
+
+            if (pts >= 100) {
+                document.getElementById('redeem-btn').classList.add('active');
+            }
+        }
+
+        async function watchVideo() {
+            // Simulate Watch
+            document.querySelector('.play-btn').innerText = '...';
+            setTimeout(async () => {
+                const res = await fetch('/api/video/watch-complete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ video_id: 'vid_123' })
+                });
+                const data = await res.json();
+
+                document.querySelector('.play-btn').innerText = '▶';
+                updateBalance(data.new_balance);
+                showToast();
+            }, 1000);
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+
+</html>

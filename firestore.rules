@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: Is the user logged in?
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper: Is this the user's own document?
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // --- USERS COLLECTION ---
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isOwner(userId);
+    }
+
+    // --- STREAKS (DUELS) COLLECTION ---
+    match /streaks/{streakId} {
+      allow read: if isSignedIn() && 
+        (request.auth.uid == resource.data.user1_uid || request.auth.uid == resource.data.user2_uid);
+
+      // Users only update their own last login timestamps
+      allow update: if isSignedIn() && 
+        (request.auth.uid == resource.data.user1_uid || request.auth.uid == resource.data.user2_uid) &&
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['last_login_user1']) && request.auth.uid == resource.data.user1_uid ||
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['last_login_user2']) && request.auth.uid == resource.data.user2_uid
+        );
+
+      allow create: if false; // Created via Backend
+      allow delete: if false;
+    }
+
+    // --- POINTS LEDGER ---
+    match /users/{userId}/points_ledger/{txnId} {
+      allow read: if isOwner(userId);
+      allow create: if false; // Only server can write to the ledger
+    }
+
+    // --- COUPONS ---
+    match /coupons/{couponId} {
+      allow read: if isSignedIn();
+    }
+  }
+}

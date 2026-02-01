@@ -1,0 +1,29 @@
+{
+    "project_info": {
+        "project_number": "22407447383",
+        "project_id": "reelrewards-66e1a",
+        "storage_bucket": "reelrewards-66e1a.firebasestorage.app"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:22407447383:android:e281ac918b4f4eb5f4f412",
+                "android_client_info": {
+                    "package_name": "com.reelrewards.app"
+                }
+            },
+            "oauth_client": [],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyA2w7zvIc1Tr-SXcb028aS1pu3biEOOBJU"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": []
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}
